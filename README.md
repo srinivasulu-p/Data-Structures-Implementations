@@ -5,7 +5,7 @@ In Each of the Data Structure Implementation, you can see the functions related 
 
 Details of methods implemented in each of the data structures implemented
 
-"LinkedList" file contains following methods
+"LinkedList" file contains following methods:
       1. add(E newElement)            --- add element at end to list.
       2. add(int index, E newElement) --- polymorphism for add method is seen here.
       3. get(int index)               --- retieve specific index element from list
@@ -20,5 +20,5 @@ Details of methods implemented in each of the data structures implemented
      12. reverseRec()                 --- Recursively reversing the elements in LinkedList
      13. reverseUsingStack()          --- Reversing the elements in LinkedList using stack
  
- "BinarySearchTree" file contains following methods
+ "BinarySearchTree" file contains following methods:
     
