@@ -1,0 +1,267 @@
+/*
+	This implementation of LinkedList class uses Generics for data types.
+	The following Methods of linkedList class are implemented here:
+		1. add(E newElement)            --- add element at end to list
+		2. add(int index, E newElement) --- polymorphism for add method is seen here.
+		3. get(int index)               --- retieve specific index element from list
+		4. delete(int index)            --- delete specific index element from list
+		5. size()                       --- return current size(no.of elements) in the list
+		6. isEmpty()                    --- return whether Linkedlist is empty or not
+		7. clear()                      --- clear the LinkedList
+		8. print()                      --- print elements from head to tail
+		9. printRec()                   --- Recursively printing elements from head to tail
+	 10. printRevRec()                --- Recursively printing elements from tail to head
+	 11. reverse()                    --- reverse the elements in LinkedList
+	 12. reverseRec()                 --- Recursively reversing the elements in LinkedList
+	 13. reverseUsingStack()          --- Reversing the elements in LinkedList using stack
+
+ */
+class MyLinkedList<E>{ implements List<E>{             // This class of LinkedList implments List interface just as predefined LinkedList
+	Node<E> head;
+	Node<E> tail;
+	private int countNodes;
+	public MyLinkedList(){
+		head = null;
+		tail = null;
+		countNodes = 0;	
+	}
+	class Node<T>{                                             //Structure of node is defined here
+		private T data;                                        // setters and getters are should used to modify or access the data
+		private Node<T> next;
+		public Node(T data, Node<T> next){
+			this.data = data;
+			this.next = next;		
+		}
+		public T getData(){
+			return this.data;	
+		}
+		public void setData(T newData){
+			this.data = newData;		
+		}
+		public Node<T> getNext(){
+			return this.next;		
+		}
+		public void setNext(Node<T> newNext){
+			this.next = newNext;
+		}	
+	}
+
+	/*
+		size methods returns the no.of. elements(countNode)
+		countNode variable always holds the current no.of nodes in this linkedlist object
+	*/
+
+	public int size(){
+		return countNodes;	
+	}
+
+	/*
+		isEmpty method returns true if List is empty
+	*/
+
+	public boolean isEmpty(){
+		return this.head == null;	
+	}
+
+	/*
+		This add method adds the new element that is given a method argument to the end of the list
+	    If List is empty it adds the new element(head) to the list
+	*/
+
+	public boolean add(E newElement){
+		if(isEmpty()){
+			head = new Node(newElement,null);
+			tail = head;		
+		}else{
+			tail.setNext(new Node(newElement,null));
+			tail = tail.getNext();		
+		}
+		countNodes++;
+		return true;		
+	}
+
+	/*
+		This add method adds the new element at the given index.
+		If the index is out of bound it throws exception
+
+	*/
+	public void add(int index,E newElement){
+		if( index<0 || index>size()){
+			throw new IndexOutOfBoundsException();		
+		}
+		if( index == size()){
+			add(newElement);
+			return;		
+		}
+		if(index == 0){
+			head = new Node(newElement,head);
+		}else {
+			Node<E> current = head;
+			for(int j=0;j<index-1;j++){
+				current = current.getNext();
+			} 
+			current.setNext(new Node(newElement,current.getNext()));
+		}
+		countNodes++;	
+	}
+	/*
+		clear methods sets the head and tail nodes to null.
+		The remaining objects of elements have no elements to it, So garbage collector clear the memory of its elements.
+	*/
+
+	public void clear(){
+		head = null;
+		tail = null;
+		countNodes = 0;	
+	}
+
+	/*
+		get method returns the element at the given index
+		if index is out of bound it throws exception
+	*/
+
+	public E get(int index){
+		if(index < 0 || index >= size()){
+			throw new IndexOutOfBoundsException();		
+		}
+		if( index < (size() -1)){
+			Node<E> current = head;
+			for(int j = 0; j<index;j++){
+				current = current.getNext();			
+			}
+			return current.getData();		
+		}
+		return tail.getData();	
+	}
+
+	/*
+		delete method deletes the element at given index
+		If index is out of bound it throws exception
+	*/
+
+	public void delete(int index){
+		if(index<0 || index >=size()){
+			throw new IndexOutOfBoundsException();		
+		}
+		if(index == 0){
+			head = head.getNext();		
+		}
+		else{
+			Node<E> current = head;
+			Node<E> prev = null;
+			for(int j=0;j < index;j++){
+				prev = current;
+				current = current.getNext();							
+			}
+			Node<E> temp = current.getNext();
+			prev.setNext(temp);
+		}
+		countNodes--;	
+	}
+
+	/*
+		print method prints elements from head to tail
+	 */
+
+	public void print(){
+		if(head == null){
+			System.out.println("List is empty");
+		}
+		else{
+			Node<E> current = head;
+			System.out.print("The list is: [");
+			while(current != null){
+				System.out.print(current.getData() + " ");
+				current = current.getNext();			
+			}
+			System.out.println("]");		
+		}	
+	}
+	/*
+		reverse method will reverse the linkedlist
+		ex: 1 -> 2 -> 3 becomes 3 -> 2 -> 1 now head points to 3.
+
+	 */
+	public void reverse(){
+		if(size() <= 0){
+			System.out.println("There are no nodes in the list"); 		
+		}
+		else{
+			Node<E> prev = null;
+			Node<E> current = head;
+			while(current != null){
+				Node<E> temp = current.getNext();
+				current.setNext(prev);
+				prev = current;
+				current = temp;				
+			}
+			head = prev;					
+		}		
+	}
+	
+	/*
+		printRec method prints elements from head to tail using recursive technique
+	 */
+	
+	public void printRec(Node<E> temp){
+		if(temp == null){
+			System.out.println("");
+			return;
+		}
+		else{
+			System.out.print(temp.getData() +" ");
+			printRec(temp.getNext());		
+		}	
+	}
+	
+	/*
+		printRevRec method prints elements from tail to head using recursive technique
+	 */
+	
+	public void printRevRec(Node<E> temp){
+		if(temp == null){
+			return;		
+		}
+		else{
+			printRevRec(temp.getNext());
+			System.out.print(temp.getData() +" ");		
+		}	
+	}
+	/*
+		reverseRec method will reverse the linkedlist using recursive technique
+		ex: 1 -> 2 -> 3 becomes 3 -> 2 -> 1 now head points to 3.
+
+	 */
+	public void reverseRec(Node<E> temp){
+		if(temp.getNext() == null){
+			head = temp;
+			return;		
+		}
+		else{
+			reverseRec(temp.getNext());
+			Node<E> temp1 = temp.getNext();
+			temp1.setNext(temp);
+			temp.setNext(null);		
+		}
+	}
+	/*
+		reverseUsingStack method will reverse the linkedlist using stack data structure
+		ex: 1 -> 2 -> 3 becomes 3 -> 2 -> 1 now head points to 3.
+
+	 */
+	public void reverseUsingStack(){
+		Stack<Node<E>> stack = new Stack<Node<E>>();
+		Node<E> curr = head;
+		while(curr != null){
+			stack.push(curr);
+			curr = curr.getNext();
+		}
+		Node<E> temp = stack.pop();
+		head = temp;		
+		while(!stack.empty()){
+			temp.setNext(stack.pop());
+			temp = temp.getNext();		
+		}
+		temp.setNext(null);			
+	}
+}
