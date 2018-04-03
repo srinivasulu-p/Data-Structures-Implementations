@@ -3,7 +3,7 @@ Own implementation of Data Structures in Java.
 
 In Each of the Data Structure Implementation, you can see the functions related to those data structures.
 
-Details of methods implemented in each of the data structures implemented
+Here are the details of methods implemented in each of the data structure implemented
 
 "LinkedList" file contains following methods:
       1. add(E newElement)            --- add element at end to list.
