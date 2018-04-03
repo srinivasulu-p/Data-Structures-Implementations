@@ -106,7 +106,7 @@ class MyLinkedList<E>{ implements List<E>{             // This class of LinkedLi
 	}
 	/*
 		clear methods sets the head and tail nodes to null.
-		The remaining objects of elements have no elements to it, So garbage collector clear the memory of its elements.
+		The remaining objects of elements have no references to it, So garbage collector will clear the memory of its elements.
 	*/
 
 	public void clear(){
