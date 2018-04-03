@@ -1,0 +1,226 @@
+package Trees;
+
+public class SriniBST {
+	Node root;
+	public SriniBST(){
+		root = null;	
+	}
+	public class Node {
+		private int data;
+		private Node left;
+		private Node right;
+		public Node(int data,Node left,Node right){
+			this.data = data;
+			this.left = left;
+			this.right = right;		
+		}
+		public void setData(int newdata){
+			this.data = newdata;		
+		}
+		public int getData(){
+			return this.data;		
+		}
+		public void setLeft(Node newleft){
+			this.left = newleft;		
+		}
+		public Node getLeft(){
+			return this.left;	
+		}
+		public void setRight(Node newright){
+			this.right = newright;		
+		}
+		public Node getRight(){
+			return this.right;	
+		}	
+	}
+	public boolean find(int udata){
+		Node curr = root;
+		while(curr != null){
+			if(curr.getData() == udata){
+				return true;
+			}
+			else if(curr.getData() > udata){
+				curr = curr.getLeft();
+			}
+			else if(curr.getData() < udata){
+				curr = curr.getRight();
+			}
+		}
+		return false;
+	}
+	public void insert(int udata){
+		Node curr = root;
+		Node prev = null;
+		if(curr == null){
+			root = new Node(udata,null,null);
+			return;
+		}
+		while(true){
+			prev = curr;
+			if(prev.getData() >= udata){
+				curr = curr.getLeft();
+				if(curr == null){
+					prev.setLeft(new Node(udata,null,null));
+					return;
+				}
+			}
+			else{
+				curr = curr.getRight();
+				if(curr == null){
+					prev.setRight(new Node(udata,null,null));
+					return;
+				}
+			}
+		}
+	}
+	public boolean delete(int udata){
+		Node delnode = root;
+		Node prev = null;
+		boolean isFound = true;
+		boolean isLeft = false;
+		boolean isRight = false;
+		//code to determine whether the given node is present in BST or not AND also finding whether it is left child or right child or even root node
+		while(isFound && delnode != null){
+			if(delnode.getData() == udata){
+			    isFound = false;
+			}else if(delnode.getData() > udata){
+				isLeft = true;
+				isRight = false;
+				prev = delnode;
+				delnode = delnode.getLeft();
+			}else if(delnode.getData() < udata){
+				isRight = true;
+				isLeft = false;
+				prev = delnode;
+				delnode = delnode.getRight();
+			}
+		}
+		if(delnode == null){
+			return false;
+		}
+		//if we are here then we found the node to be deleted
+		//case 1: if node to be deleted is leaf node
+		if(delnode.getLeft() == null && delnode.getRight() == null){
+			if(delnode.getData() <= prev.getData()){
+				prev.setLeft(null);
+				return true;
+			}
+			else{
+				prev.setRight(null);
+				return true;
+			}
+		}
+		//case 2: if node to be deleted has one child -- left or right
+		if(delnode.getLeft() == null || delnode.getRight() == null){
+			if(delnode.getData() <= prev.getData()){
+				if(delnode.getLeft() == null){
+					prev.setLeft(delnode.getRight());
+					return true;
+				}
+				else {
+					prev.setLeft(delnode.getLeft());
+					return true;
+				}
+			}
+			else{
+				if(delnode.getLeft() == null){
+					prev.setRight(delnode.getRight());
+					return true;
+				}
+				else {
+					prev.setRight(delnode.getLeft());
+					return true;
+				}
+			}
+		}
+		//case 3: if node to be deleted has both child nodes 
+		if(delnode.getLeft() != null && delnode.getRight() != null){
+			Node succ = getSuccessor(delnode);
+			if(isLeft == false && isRight == false){
+				succ.setLeft(delnode.getLeft());
+				succ.setRight(delnode.getRight());
+				root = succ;
+				return true;
+			}else if(isLeft == true){
+				succ.setLeft(delnode.getLeft());
+				succ.setRight(delnode.getRight());
+				prev.setLeft(succ);
+				return true;
+			}else{
+				succ.setLeft(delnode.getLeft());
+				succ.setRight(delnode.getRight());
+				prev.setRight(succ);
+				return true;
+			}
+		}
+		return false;
+	}
+	public Node getSuccessor(Node currnode){
+		Node succprev = currnode;
+		Node successor = currnode.getRight();
+		if(successor.getLeft() == null){
+			succprev.setRight(successor.getRight());
+			return successor;
+		}
+		while(successor.getLeft() != null){
+			succprev = successor;
+			successor = successor.getLeft();
+		}
+		succprev.setLeft(successor.getRight());
+		return successor;
+	}
+	//Function to display all the nodes in BST --- 0(n)
+	public void display(Node root){
+		if(root != null){
+			display(root.getLeft());
+			System.out.print(" " + root.getData());
+			display(root.getRight());
+		}
+	}
+	//Function to find min element in the BST using iterative method.
+	public int findMin(Node root){
+		if(root == null){
+			System.out.println("The tree is empty");
+			return -1;
+		}
+		else{
+			while(root.getLeft() != null){
+				root = root.getLeft();
+			}
+			return root.getData();
+		}
+	}
+	//Function to find min element in BST using Recursion.
+	public int findMinRec(Node root){
+		if(root == null){
+			System.out.println("Tree is empty");
+			return -1;
+		}
+		else if(root.getLeft() == null){
+			return root.getData();
+		}
+		return findMinRec(root.getLeft());
+	}
+	//Function to find max element in the BST using iterative.
+	public int findMax(Node root){ //root here is local variable for function ..it doesn't change main root node.
+		if(root == null){
+			System.out.println("The tree is empty");
+			return -1;
+		}
+		else{
+			while(root.getRight() !=null){
+				root = root.getRight();
+			}
+			return root.getData();
+		}
+	}
+	//function to find height of BST
+	public int findHeight(Node root){
+		if(root == null){
+			return -1;
+		}
+		int leftHeight = findHeight(root.getLeft());
+		int rightHeight = findHeight(root.getRight());
+		return Math.max(leftHeight,rightHeight)+1;
+	}
+}
