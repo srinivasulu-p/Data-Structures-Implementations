@@ -1,8 +1,5 @@
 # Data-Structures-Implementations
 Own implementation of Data Structures in Java.
-
-In Each of the Data Structure Implementation, you can see the functions related to those data structures.
-
 Here are the details of methods implemented in each of the data structure implemented
 
 "LinkedList" file contains implementation of LinkedList with following methods:
