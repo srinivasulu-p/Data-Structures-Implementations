@@ -1,0 +1,77 @@
+/*
+	This implementation of Queue is done using LinkedList and Generics for data type.
+	In this implementation you can see following methods of queues
+		1. isEmpty				      	--- returns true if queue is empty else false
+		2. enQueue(int newData)		--- adds new element to queue
+		3. deQueue()				      --- deletes first inserted element.
+
+ */
+class MyQueueLinkedList<E>{
+	Node<E> head;
+	Node<E> tail;
+	public MyQueueLinkedList(){
+		head = null;
+		tail = null;	
+	}
+	/*
+		Structure for node is defined here
+		setters and getters are implemented to access private variables.
+	 */
+	private class Node<T>{
+		private T data;
+		private Node<T> next;
+		public Node(T data,Node<E> next){
+			this.data = data;
+			this.next = next;	
+		}
+		public void setData(T newData){
+			this.data = newData;		
+		}  
+		public T getData(){
+			return this.data;		
+		}
+		public void setNext(Node<T> newNext){
+			this.next = newNext;		
+		}
+		public Node<T> getNext(){
+			return this.next;		
+		}	
+	}
+	/*
+			returns true if queue is empty or else false
+	 */
+	public boolean isEmpty(){
+		if(head == null){
+			return true;		
+		}else{
+			return false;		
+		}	
+	}
+	/*
+			adds new element to the list
+	 */
+	public void enQueue(E a){
+		if(head == null){
+			head = new Node(a,null);
+			tail = head;		
+		}else{
+			tail.setNext(new Node(a,null);
+			tail = tail.getNext();		
+		}	
+	}
+	/*
+			deletes firstly inserted element.
+	 */
+	public void deQueue(){
+		if(head == null){
+			System.out.println("There are no elements in queue");		
+		}else if(head == tail){
+			head = null;
+			tail = null;		
+		}
+		else{
+			temp = head.getNext();
+			head = temp;				
+		}	
+	}
+}
