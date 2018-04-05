@@ -1,10 +1,26 @@
 package Trees;
 
-public class SriniBST {
-	Node root;
-	public SriniBST(){
+/*
+	In this implementation of Binary Search Tree, I am considering data to be Integer for simplicity purpose.
+	The following methods of Binary search Tree are implemented her:
+		1. find(int data)     --- returns true if given value is present in BST else false.
+		2. insert(int data)   --- inserts given int value in the BST
+		3. delete(int data)   --- deletes the given integer data from BST if present.
+		4. display()          --- prints all the node values in-order(ascending)
+		5. findMin()          --- returns minimum value node in the BST using iterative technique
+		6. findMinRec()       --- returns minimum value node in the BST using Recursion technique
+		7. findMax()          --- returns maximum value node in the BST using iterative technique
+		8. findHeight()       --- returns maximum height of the BST using Recursion technique.
+ */
+public class BST {
+	private Node root;
+	public BST(){
 		root = null;	
 	}
+	/*
+			Structure of node in BST is defined here
+			setters and getters should used to modify or access the data
+	 */
 	public class Node {
 		private int data;
 		private Node left;
@@ -33,6 +49,11 @@ public class SriniBST {
 			return this.right;	
 		}	
 	}
+
+	/*
+		"find" method returns true if given value of node is present else false.
+	 */
+
 	public boolean find(int udata){
 		Node curr = root;
 		while(curr != null){
@@ -48,6 +69,10 @@ public class SriniBST {
 		}
 		return false;
 	}
+	/*
+		"insert" method inserts the given value in BST.
+		 	if given value is already present in the BST, it inserts new node with same value to its left
+	 */
 	public void insert(int udata){
 		Node curr = root;
 		Node prev = null;
@@ -73,6 +98,13 @@ public class SriniBST {
 			}
 		}
 	}
+	/*
+		"delete" method returns true if given value is present in BST and successfully removed, else it returns false.
+			This method needs to consider three scenarios,
+				1. delete node with no child nodes.
+				2. delete node with one child node.
+				3. delete node with both child nodes.
+	 */
 	public boolean delete(int udata){
 		Node delnode = root;
 		Node prev = null;
@@ -155,6 +187,9 @@ public class SriniBST {
 		}
 		return false;
 	}
+	/*
+		"getSuccessor" is a utility function to find node to replace node that needs to be deleted.
+	 */
 	public Node getSuccessor(Node currnode){
 		Node succprev = currnode;
 		Node successor = currnode.getRight();
@@ -201,15 +236,19 @@ public class SriniBST {
 		}
 		return findMinRec(root.getLeft());
 	}
-	//Function to find max element in the BST using iterative.
-	public int findMax(Node root){ //root here is local variable for function ..it doesn't change main root node.
+
+	/*
+			Function to find max element in the BST using iterative.
+	 */
+
+	public int findMax(Node currNode){
 		if(root == null){
 			System.out.println("The tree is empty");
 			return -1;
 		}
 		else{
 			while(root.getRight() !=null){
-				root = root.getRight();
+				currNode = root.getRight();
 			}
 			return root.getData();
 		}
