@@ -1,0 +1,215 @@
+/*
+	This implementation of MyDoubleLinkedList class uses Generics for data types.
+	The following Methods of DoublelinkedList class are implemented here:
+		1. add(E newElement)            --- add element at end to list
+		2. add(int index, E newElement) --- overloaded method for add method is seen here.
+		3. get(int index)               --- retieve specific index element from list
+		4. delete(int index)            --- delete specific index element from list
+		5. size()                       --- return current size(no.of elements) in the list
+		6. isEmpty()                    --- return whether DoubleLinkedlist is empty or not
+		7. remove()                     --- clear the DoubleLinkedList
+		8. printForward()               --- print elements from head to tail
+		9. printReverse()               --- print elements from tail to head
+
+ */
+
+class MyDoubleLinkedList<E> {
+	Node<E> head;
+	Node<E> tail;
+	int countNodes;
+	public MyDoubleLinkedList(){
+		head = null;
+		tail = null;
+		countNodes = 0;	
+	}
+	/*
+			Structure of node is seen here
+			setters and getters are used to access the private variables.
+	 */
+	private class Node<T>{
+		private T data;
+		private Node<T> next;
+		private Node<T> prev;
+		public Node(T newData,Node<T> newNext,Node<T> newPrev){
+			this.data = newData;
+			this.next = newNext;
+			this.prev = newPrev;		
+		}
+		public void setData(T data){
+			this.data = data;		
+		}
+		public T getData(){
+			return this.data;		
+		}
+		public void setNext(Node<T> next){
+			this.next = next;		
+		}
+		public Node<T> getNext(){
+			return this.next;		
+		}
+		public void setPrev(Node<T> prev){
+			this.prev = prev;		
+		}
+		public Node<T> getPrev(){
+			return this.prev;		
+		}	
+	}
+
+	/*
+    	size methods returns the no.of. elements(countNode)
+    	countNodes variable always holds the current no.of nodes in this doublelinkedlist object
+	*/
+
+	public int size(){
+		return countNodes;	
+	}
+
+	/*
+		isEmpty method returns true if List is empty
+	*/
+
+	public boolean isEmpty(){
+		return this.head == null;	
+	}
+
+	/*
+		This add method adds the new element that is given a method argument to the end of the list
+	    If List is empty it adds the new element(head) to the list
+	*/
+
+	public boolean add(E newElement){
+		if(isEmpty()){
+			head = new Node(newElement,null,null);
+			tail = head;		
+		}else{
+			tail.setNext(new Node(newElement,null,tail));
+			tail = tail.getNext();			
+		}
+		countNodes++;	
+		return true;
+	}
+
+	/*
+		This add method adds the new element at the given index.
+		If the index is out of bound it throws exception
+
+	*/
+	public void add(E newElement,int index){
+		if(index < 0 || index > size()){
+			throw new IndexOutOfBoundsException();		
+		}
+		if(index == size()){
+			add(newElement);
+			return;		
+		}
+		if(index == 0){
+			head.setPrev(new Node(newElement,head,null));
+			head = head.getPrev();		
+		}
+		else{	
+			Node<E> current = head;
+			for(int j=0;j<index-1;j++){
+				current = current.getNext();							
+			}
+			current.setNext(new Node(newElement,current.getNext(),current));
+			current = current.getNext();
+			current.getNext().setPrev(current);				
+		}
+		countNodes++; 			
+	}
+
+	/*
+		remove methods sets the head and tail nodes to null.
+		The remaining objects of elements have no references to it, So garbage collector clear the memory of its elements.
+	*/
+
+	public void remove(){
+		head = null;
+		tail = null;
+		countNodes = 0;	
+	}
+
+	/*
+		delete method deletes the element at given index
+		If index is out of bound it throws exception
+	*/
+	public void delete(int index){
+		if(index < 0 || index >= size()){
+			throw new IndexOutOfBoundsException();		
+		}
+		if(index == 0) {
+			head = head.getNext();
+			head.setPrev(null);		
+		}
+		if(index > 0 && index < (size()-1)){
+			Node<E> current = head;
+			for(int j=0;j<index;j++){
+				current = current.getNext();			
+			}
+			current.getPrev().setNext(current.getNext());
+			current.getNext().setPrev(current.getPrev());	
+		}else{
+			tail.getPrev().setNext(null);
+			tail = tail.getPrev();		
+		}
+		countNodes--;
+	}
+	/*
+		printForward method prints elements from head to tail
+	 */
+
+	public void printForward(){
+		if(head == null){
+			System.out.println("list is empty");		
+		}else{
+			Node<E> temp = head;
+			System.out.print("[");
+			while(temp != null){
+				System.out.print(temp.getData() +" ");
+				temp = temp.getNext();		
+			}
+			System.out.print("]");
+			System.out.println("");
+		}			
+	}
+	/*
+		printReverse method will print elements from tail to head
+	 */
+	public void printReverse(){
+		if(head == null){
+			System.out.println("list is empty");		
+		}
+		else{
+			Node<E> temp = tail;
+			System.out.print("[");
+			while(temp != null){
+				System.out.print(temp.getData() +" ");
+				temp = temp.getPrev();		
+			}
+			System.out.print("]");
+			System.out.println("");	
+		}	
+	}
+
+	/*
+		get method returns the element at the given index
+		if index is out of bound it throws exception
+	*/
+
+	public E get(int index){
+		if(index < 0 || index >= size()){
+			throw new IndexOutOfBoundsException();		
+		}
+		if(index == 0){
+			return head.getData();		
+		}
+		if(index < (size()-1)){
+			Node<E> current = head;
+			for(int j=0;j<index;j++){
+				current = current.getNext();			
+			} 
+			return current.getData();			
+		}
+		return tail.getData();	
+	}	
+}
