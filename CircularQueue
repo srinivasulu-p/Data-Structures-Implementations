@@ -1,0 +1,74 @@
+/*
+	This implementation of CircularQueue is done using Array of size 10.
+	For simplicity I choose to store int data type.
+
+	In this implementation you can see following methods of queues
+		1. isEmpty				      	--- returns true if queue is empty else false
+		2. front()					      --- returns front(first inserted) element in the queue
+		3. enQueue(int newData)		--- adds new element to queue if it doesn't extend the size limit
+		4. deQueue()		      		--- removes the firstly inserted value in the CircularQueue
+
+ */
+class CircularQueue{
+	int N = 10;
+	int[] A = new int[N];
+	int front = -1;
+	int rear = -1;
+
+	/*
+		isEmpty returns true if queue is empty else false
+	 */
+
+	public boolean isEmpty(){
+		if(front == -1 && rear == -1){
+			return true;		
+		}else {
+			return false;		
+		}	
+	}
+	/*
+		front returns front(first inserted) element in the queue
+		if queue is empty it returns -1.
+	 */
+	public int front(){
+		if(!isEmpty()){
+			return A[front];
+		}
+		else {
+			return -1;		
+		}		
+	}
+	/*
+		enQueue adds new element to queue if it doesn't extend the size limit
+	 */
+	public void enQueue(int a){
+		if((rear+1)%N == front){
+			System.out.println("can't be added queue is full");
+			return;		
+		}
+		else if(front == -1 && rear == -1){
+			front = front +1;
+			rear = rear+1;
+			A[rear] = a; 		
+		}else{
+			rear = (rear +1)%N;
+			A[rear] = a;		
+		}	
+	}
+	/*
+		removes the firstly inserted value in the CircularQueue
+	 */
+	public void deQueue(){
+		if(front == -1 && rear == -1){
+			System.out.println("Queue is empty already");
+			return;		
+		}
+		else if(front == rear){
+			front = -1;
+			rear = -1;		
+		}
+		else{
+			front = (front+1)%N;		
+		}	
+	}
+}
