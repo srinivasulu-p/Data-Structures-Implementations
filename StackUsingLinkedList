@@ -1,0 +1,101 @@
+/*
+	This implementation of Stack is done using LinkedList and Generics for data type.
+	In this implementation you can see following methods of stack
+		1. isEmpty					--- returns true if stack is empty else false
+		2. push(int newData)		--- adds new element to stack
+		3. pop()					--- returns and deletes lastly inserted element in the stack.
+		4. peek()					--- returns lastly inserted element but doesn't delete the element
+		4. print() 					--- print the elements in the stack from bottom to top.
+
+ */
+class MyStackLinkedList<E>{
+	Node<E> top;
+	Node<E> tail;
+	private int countNodes;
+	public MyStackLinkedList(){
+		top = null;
+		tail = null;
+		countNodes = 0;	
+	}
+	/*
+		Structure for node is defined here
+		setters and getters are implemented to access private variables.
+	 */
+	private class Node<T>{
+		private T data;
+		private Node<T> next;
+		public Node(T data, Node<T> next){
+			this.data = data;
+			this.next = next;		
+		}
+		public T getData(){
+			return this.data;	
+		}
+		public void setData(T newData){
+			this.data = newData;		
+		}
+		public Node<T> getNext(){
+			return this.next;		
+		}
+		public void setNext(Node<T> newNext){
+			this.next = newNext;
+		}	
+	}
+	/*
+		push adds new element to stack
+	 */
+	public void push(E a){
+		if(top == null){
+			top = new Node(a,null);
+			tail = top;		
+		}
+		else{
+			top = new Node(a,top);		
+		}
+		countNodes++;	
+	}
+	/*
+			pop returns and deletes lastly inserted element in the stack.
+	 */
+	public E pop(){
+		if(top == null){
+			System.out.println("Stack is empty");	
+			return null;
+		}
+		else{
+			E temp = top.getData();
+			top = top.getNext();
+			return temp;
+		}
+		countNodes--;	
+	}
+	/*
+			"isEmpty" method returns true if stack is empty
+	 */
+	public boolean isEmpty(){
+		return top == null;	
+	}
+	/*
+			returns lastly inserted element but doesn't delete the element
+	 */
+	public E peek(){
+		return top.getData();	
+	}
+	/*
+			print method prints all elements from bottom to top of stack.
+	 */
+	public void print(){
+		if(top == null){
+			System.out.println("List is empty");		
+		}
+		else{
+			Node<E> curr = top;
+			System.out.print("Stack : "); 
+			while(curr != null){	
+				System.out.print(curr.getData() + " ");
+				curr = curr.getNext();			
+			}
+			System.out.println("");		
+		}	
+	}
+}
